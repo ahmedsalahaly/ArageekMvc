@@ -1,5 +1,5 @@
 ﻿using ArageekMvc.Data;
-using ArageekMvc.Data.Migrations;
+using ArageekMvc.Models ;
 using ArageekMvc.Repository;
 using static ArageekMvc.Repository.IValidation;
 
@@ -35,9 +35,9 @@ namespace ArageekMvc.Services
 
         public bool IsExist(Artical entity)
         {
-            if (!IsExistById(entity.ID))
+            if (!IsExistById(entity.Id))
             {
-                return dbContext.articals.Any(x => x.Id == Id);
+                return dbContext.articals.Any(x => x.Id == entity.Id);
             }
             else
             {
