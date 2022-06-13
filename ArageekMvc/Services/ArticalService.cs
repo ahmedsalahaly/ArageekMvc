@@ -15,12 +15,20 @@ namespace ArageekMvc.Services
 
         public void Add(Artical entity)
         {
-            throw new NotImplementedException();
+            if (!IsExist(entity))
+            {
+                dbContext.articals.Add(entity);
+                dbContext.SaveChanges();
+            }
         }
 
         public void Delete(Artical entity)
         {
-            throw new NotImplementedException();
+            if (IsExistById(entity.Id))
+            {
+                dbContext.articals.Remove(GetAll(Id));
+                dbContext.SaveChanges();
+            }
         }
 
         public List<Artical> GetAll()
@@ -30,7 +38,11 @@ namespace ArageekMvc.Services
 
         public Artical GetById(int ID)
         {
-            throw new NotImplementedException();
+            if (IsExistById(ID))
+            {
+                return dbContext.articals.Where(x => x.Id == ID).SingleOrDefault();
+            }
+            return null;
         }
 
         public bool IsExist(Artical entity)
@@ -52,7 +64,13 @@ namespace ArageekMvc.Services
 
         public void Update(Artical entity)
         {
-            throw new NotImplementedException();
+            if (IsExist(entity))
+            {
+                Artical oldArtical = GetById(entity.Id);
+                oldArtical.Name = entity.Name;
+                dbContext.articals.Update(oldArtical);
+                dbContext.SaveChanges();
+            }
         }
     }
 }
