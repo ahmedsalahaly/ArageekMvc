@@ -1,0 +1,24 @@
+﻿@model List<ArticalVM>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All articals</h1>
+
+<div class="container-sm">
+    @foreach (ArticalVM articalVM in Model)
+    {
+        <div class="row mt-4">
+            <div class="col">
+                <h2 class="display-5">@articalVM.Title</h2>
+                <h4>@articalVM.AuthorName</h4>
+            </div>
+            <div class="col">
+                <img class="smallImg" src="@articalVM.ImageURL" />
+            </div>
+        </div>
+    }
+</div>
+

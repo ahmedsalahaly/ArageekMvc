@@ -1,11 +1,11 @@
 ﻿using ArageekMvc.Data;
 using ArageekMvc.Models ;
 using ArageekMvc.Repository;
-using static ArageekMvc.Repository.IValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArageekMvc.Services
 {
-    public class ArticalService : IGenericCRUD<Artical>,IValidation<Artical>
+    public class ArticalService : IArticalRepository
     {
         private readonly ApplicationDbContext dbContext;
         public ArticalService(ApplicationDbContext _dbContext)
@@ -26,14 +26,14 @@ namespace ArageekMvc.Services
         {
             if (IsExistById(entity.Id))
             {
-                dbContext.articals.Remove(GetAll(Id));
+                dbContext.articals.Remove(GetById(entity.Id));
                 dbContext.SaveChanges();
             }
         }
 
         public List<Artical> GetAll()
         {
-            return dbContext.articals.ToList();
+            return dbContext.articals.Include(x=>x.auther).ToList();
         }
 
         public Artical GetById(int ID)
@@ -67,7 +67,7 @@ namespace ArageekMvc.Services
             if (IsExist(entity))
             {
                 Artical oldArtical = GetById(entity.Id);
-                oldArtical.Name = entity.Name;
+                oldArtical.Title = entity.Title;
                 dbContext.articals.Update(oldArtical);
                 dbContext.SaveChanges();
             }
